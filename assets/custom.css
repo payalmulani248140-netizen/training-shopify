@@ -1,0 +1,233 @@
+  /* featured-collection.css */
+
+.featured-collection-section {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', -apple-system, sans-serif;
+  line-height: 1.5;
+  transition: background .3s ease, color .3s ease;
+}
+
+.featured-collection-section h1,
+.featured-collection-section h2,
+.featured-collection-section h3,
+.featured-collection-section h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  margin: 0;
+}
+
+.fc-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.fc-products-head {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.fc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.fc-eyebrow::before,
+.fc-eyebrow::after {
+  content: '';
+  width: 24px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: .5;
+}
+
+.fc-products-head h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin-bottom: 12px;
+}
+
+.fc-products-head p {
+  font-size: 15px;
+  color: var(--fg-soft);
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+.fc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.fc-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+}
+
+.fc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 40px -18px var(--shadow);
+}
+
+.fc-card-media {
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--accent-tint) 0%, var(--border) 100%);
+}
+
+.fc-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fc-card-media svg.fc-placeholder {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 36%;
+  height: 36%;
+  color: var(--accent);
+}
+
+.fc-card-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  z-index: 2;
+}
+
+.fc-card-wish {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px var(--shadow);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.fc-card-wish svg {
+  width: 15px;
+  height: 15px;
+  color: var(--fg-soft);
+}
+
+.fc-card-quickshop {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -44px;
+  background: var(--accent);
+  color: var(--bg);
+  text-align: center;
+  padding: 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 0;
+  transition: bottom .3s ease;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.fc-card:hover .fc-card-quickshop {
+  bottom: 12px;
+}
+
+.fc-card-body {
+  padding: 18px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-card-cat {
+  font-size: 11px;
+  color: var(--fg-soft);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 4px;
+}
+
+.fc-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  flex-grow: 1;
+}
+
+.fc-card-price-row {
+  display: flex;
+  align-items:baseline;
+  gap: 8px;
+}
+
+.fc-card-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.fc-card-price-was {
+  font-size: 13px;
+  color: var(--fg-soft);
+  text-decoration: line-through;
+}
+
+.fc-card-stars {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+@media (max-width: 990px) {
+    .fc-grid {
+        display: flex;
+        overflow-x: scroll;
+        gap: 11px;
+    }
+    .fc-card {
+        flex: 0 0 33.33%;
+    }
+    .fc-wrap {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .fc-card {
+        flex: 0 0 84%;
+    }
+}
