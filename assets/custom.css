@@ -1,5 +1,7 @@
   /* featured-collection.css */
-
+.featured-collection-section {
+    background: beige !important;
+}
 .featured-collection-section {
   background: var(--bg);
   color: var(--fg);
