@@ -1,16 +1,15 @@
   /* featured-collection.css */
+
 .featured-collection-section {
-    background: beige !important;
-}
-.featured-collection-section {
-  background: var(--bg);
+  /* background: var(--bg); */
+    background: aliceblue;
   color: var(--fg);
   font-family: 'Inter', -apple-system, sans-serif;
   line-height: 1.5;
   transition: background .3s ease, color .3s ease;
 }
 
-.featured-collection-section h1,
+.featured-collection-section h1, 
 .featured-collection-section h2,
 .featured-collection-section h3,
 .featured-collection-section h4 {
