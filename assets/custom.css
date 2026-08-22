@@ -1,7 +1,8 @@
   /* featured-collection.css */
 
 .featured-collection-section {
-  background: var(--bg);
+  /* background: var(--bg); */
+    background: aliceblue;
   color: var(--fg);
   font-family: 'Inter', -apple-system, sans-serif;
   line-height: 1.5;
