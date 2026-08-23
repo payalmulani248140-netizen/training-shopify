@@ -1,6 +1,6 @@
-  {{ 'custom.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
 
- {%- style -%}
+{%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -24,6 +24,11 @@
     --shadow: rgba(28,27,24,0.16);
     --radius-l: 18px;
     --radius-m: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .fc-card-title {
+    text-decoration: none;
+    color: inherit;
   }
 {%- endstyle -%}
 
@@ -56,22 +61,37 @@
                 {%- elsif product.tags contains 'New' -%}
                   <span class="fc-card-tag">New</span>
                 {%- endif -%}
- 
 
-     {%- if product.featured_image != blank -%}
-        {{
-          product.featured_image
-          | image_url: width: 600
-          | image_tag:
-            loading: 'eager',
-            fetchpriority: 'high',
-            widths: '320, 480, 600',
-            sizes: '(min-width: 750px) 600px, 100vw',
-            alt: product.featured_image.alt
-        }}
-      {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag: 'fc-placeholder' }}
-      {%- endif -%}
+                {%- if product.featured_image != blank -%}
+                  {%- assign is_first_section = false -%}
+                  {%- if forloop.parentloop.first and section.index == 1 -%}
+                    {%- assign is_first_section = true -%}
+                  {%- endif -%}
+
+                  {%- liquid
+                    assign img_loading = 'lazy'
+                    assign img_fetchpriority = 'auto'
+                    if is_first_section and forloop.index <= 4
+                      assign img_loading = 'eager'
+                    endif
+                    if is_first_section and forloop.index == 1
+                      assign img_fetchpriority = 'high'
+                    endif
+                  -%}
+
+                  {{
+                    product.featured_image
+                    | image_url: width: 600
+                    | image_tag:
+                      loading: img_loading,
+                      fetchpriority: img_fetchpriority,
+                      widths: '320, 480, 600',
+                      sizes: '(min-width: 750px) 600px, 100vw',
+                      alt: product.featured_image.alt
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'fc-placeholder' }}
+                {%- endif -%}
 
                 {%- if product.variants.size > 1 and product.available -%}
                   <button type="button" class="fc-card-quickshop" data-variant-id="{{ product.selected_or_first_available_variant.id }}">Quick add</button>
@@ -81,8 +101,8 @@
               </div>
 
               <div class="fc-card-body">
-                <div class="fc-card-cat">{{ block.settings.custom_category  | default: product.type }}</div>
-                <a href="{{ product.url }}" class="fc-card-title" style="text-decoration:none; color:inherit;">{{ block.settings.custom_title | default: product.title  }}</a>
+                <div class="fc-card-cat">{{ block.settings.custom_category | default: product.type }}</div>
+                <a href="{{ product.url }}" class="fc-card-title">{{ block.settings.custom_title | default: product.title }}</a>
                 <div class="fc-card-stars">★★★★★</div>
                 <div class="fc-card-price-row">
                   <span class="fc-card-price">{{ product.price | money }}</span>
@@ -94,7 +114,6 @@
             </div>
           {%- endif -%}
         {%- endfor -%}
-      
       {%- endif -%}
     </div>
 
@@ -103,30 +122,34 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const quickAdds = document.querySelectorAll('#shopify-section-{{ section.id }} .fc-card-quickshop[data-variant-id]');
-    
-    quickAdds.forEach(button => {
-      button.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const variantId = button.getAttribute('data-variant-id');
-        button.textContent = 'Adding...';
+    const sectionContainer = document.getElementById('shopify-section-{{ section.id }}');
+    if (!sectionContainer) return;
 
-        try {
-          let response = await fetch('/cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: variantId, quantity: 1 })
-          });
-          let cart = await response.json();
-          button.textContent = 'Added! ✓';
-          setTimeout(() => { button.textContent = 'Quick add'; }, 2000);
-          
-          document.dispatchEvent(new CustomEvent('cart:refresh', { detail: cart }));
-        } catch (err) {
-          console.error('Error adding to cart:', err);
-          button.textContent = 'Error';
-        }
-      });
+    sectionContainer.addEventListener('click', async (e) => {
+      const button = e.target.closest('.fc-card-quickshop[data-variant-id]');
+      if (!button) return;
+
+      e.preventDefault();
+      const variantId = button.getAttribute('data-variant-id');
+      const originalText = button.textContent;
+      button.textContent = 'Adding...';
+
+      try {
+        let response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 })
+        });
+        let cart = await response.json();
+        button.textContent = 'Added! ✓';
+        setTimeout(() => { button.textContent = originalText; }, 2000);
+        
+        document.dispatchEvent(new CustomEvent('cart:refresh', { detail: cart }));
+      } catch (err) {
+        console.error('Error adding to cart:', err);
+        button.textContent = 'Error';
+        setTimeout(() => { button.textContent = originalText; }, 2000);
+      }
     });
   });
 </script>
