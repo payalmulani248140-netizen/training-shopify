@@ -60,7 +60,7 @@
  
 
                 {%- if product.featured_image != blank -%}
-                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" fetchpriority="high" loading="eager">
                 {%- else -%}
                   {{ 'product-1' | placeholder_svg_tag: 'fc-placeholder' }}
                 {%- endif -%}
