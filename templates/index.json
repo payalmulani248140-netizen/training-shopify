@@ -99,13 +99,13 @@
         "eyebrow": "Full Collection",
         "title": "Everything in one place",
         "description": "A scalable grid built to hold custom product blocks with individual overrides.",
-        "bg_color": "#FAFAF7",
-        "fg_color": "#1C1B18",
-        "fg_soft_color": "#5C5A50",
-        "card_bg": "#FFFFFF",
-        "border_color": "#E4E1D8",
-        "accent_color": "#2F4B3C",
-        "accent_tint": "#E7EEE9",
+        "bg_color": "#fafaf7",
+        "fg_color": "#1c1b18",
+        "fg_soft_color": "#5c5a50",
+        "card_bg": "#ffffff",
+        "border_color": "#e4e1d8",
+        "accent_color": "#2f4b3c",
+        "accent_tint": "#e7eee9",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -113,7 +113,7 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "all",
+        "collection": "",
         "products_to_show": 8,
         "title": "Featured products",
         "heading_size": "h2",
