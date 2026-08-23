@@ -59,11 +59,20 @@
                 {%- endif -%}
  
 
-                {%- if product.featured_image != blank -%}
-                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" fetchpriority="high" loading="eager">
-                {%- else -%}
-                  {{ 'product-1' | placeholder_svg_tag: 'fc-placeholder' }}
-                {%- endif -%}
+     {%- if product.featured_image != blank -%}
+        {{
+          product.featured_image
+          | image_url: width: 600
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '320, 480, 600',
+            sizes: '(min-width: 750px) 600px, 100vw',
+            alt: product.featured_image.alt
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'fc-placeholder' }}
+      {%- endif -%}
 
                 {%- if product.variants.size > 1 and product.available -%}
                   <button type="button" class="fc-card-quickshop" data-variant-id="{{ product.selected_or_first_available_variant.id }}">Quick add</button>
